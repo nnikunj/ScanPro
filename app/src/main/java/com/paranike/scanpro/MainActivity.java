@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.paranike.scanpro.core.BarCodeParser;
 import com.paranike.scanpro.model.BarCodeCoponents;
 
-import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView grnNumber = findViewById(R.id.textViewToolGrnNumberData);
                 TextView batchNumber = findViewById(R.id.textViewBNumberData);
                 TextView inspLotNumber = findViewById(R.id.textViewInspLotData);
-                Log.d("Tag: ", comps.toString());
+
                 sap.setText(comps.getSapCode());
                 toolName.setText(comps.getToolName());
                 toolBatchNumber.setText(comps.getToolBatchNumber());

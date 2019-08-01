@@ -4,30 +4,37 @@ import com.paranike.scanpro.model.BarCodeCoponents;
 
 public class BarCodeParser {
 
+    private int sapCodePos = 0;
+    private int toolNamePos = 5;
+    private int toolBatchNoPos = 4;
+    private int grnNoPos = 1;
+    private int rmBatchNoPos = 2;
+    private int inspLotNoPos = 3;
+
     public BarCodeCoponents parsebarCode(BarCodeCoponents barcodeModel) {
         if (barcodeModel == null) {
             return null;
         }
         String barCode = barcodeModel.getBarCode();
         if (barCode != null && barCode.length() > 0) {
-            String splitCode[] = barCode.split("$");
+            String splitCode[] = barCode.split("\\$");
             for (int i = 0; i < splitCode.length; i++) {
-                if (i == 0) {
+                if (i == sapCodePos) {
                     barcodeModel.setSapCode(splitCode[i]);
                 }
-                if (i == 1) {
+                if (i == toolNamePos) {
                     barcodeModel.setToolName(splitCode[i]);
                 }
-                if (i == 2) {
+                if (i == toolBatchNoPos) {
                     barcodeModel.setToolBatchNumber(splitCode[i]);
                 }
-                if (i == 3) {
+                if (i == grnNoPos) {
                     barcodeModel.setGrnNumber(splitCode[i]);
                 }
-                if (i == 4) {
+                if (i == rmBatchNoPos) {
                     barcodeModel.setRmBatchNumber(splitCode[i]);
                 }
-                if (i == 5) {
+                if (i == inspLotNoPos) {
                     barcodeModel.setInspLotNumber(splitCode[i]);
                 }
             }
