@@ -2,12 +2,10 @@ package com.paranike.scanpro;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
+
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.Editable;
@@ -20,14 +18,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.paranike.scanpro.core.BarCodeParser;
-import com.paranike.scanpro.model.BarCodeCoponents;
+import com.paranike.scanpro.db.ItemsDataSource;
+import com.paranike.scanpro.model.Items;
 
 
 public class MainActivity extends AppCompatActivity {
 
+
+    ItemsDataSource itemsDataSource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        itemsDataSource = new ItemsDataSource(this);
+        itemsDataSource.open();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
-                BarCodeCoponents comps = new BarCodeCoponents(scannedBarCode);
+                Items comps = new Items(scannedBarCode);
 
                 BarCodeParser parser = new BarCodeParser();
                 comps = parser.parsebarCode(comps);
@@ -94,6 +99,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        itemsDataSource.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        itemsDataSource.open();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

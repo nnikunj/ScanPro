@@ -1,9 +1,15 @@
 package com.paranike.scanpro.model;
 
+import android.content.ContentValues;
+
+import com.paranike.scanpro.db.ItemsTable;
+
 import java.util.Objects;
 
-public class BarCodeCoponents {
+public class Items {
 
+    private final int NUMBER_OF_FIELDS = 8;
+    private String id;
     private final String barCode;
     private String sapCode;
     private String toolName;
@@ -11,9 +17,16 @@ public class BarCodeCoponents {
     private String grnNumber;
     private String rmBatchNumber;
     private String inspLotNumber;
+    private int quantity;
+    private String scanLocation;
 
-    public BarCodeCoponents(String barCode) {
+
+    public Items(String barCode) {
         this.barCode = barCode;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getBarCode() {
@@ -22,6 +35,10 @@ public class BarCodeCoponents {
 
     public String getSapCode() {
         return sapCode;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setSapCode(String sapCode) {
@@ -68,11 +85,31 @@ public class BarCodeCoponents {
         this.inspLotNumber = inspLotNumber;
     }
 
+    public ContentValues toValues() {
+        ContentValues values = new ContentValues(NUMBER_OF_FIELDS);
+        values.put(ItemsTable.COLUMN_ID, this.id);
+        values.put(ItemsTable.COLUMN_BARCOE, this.barCode);
+        values.put(ItemsTable.COLUMN_SAP_CODE, this.sapCode);
+        //  private String toolName;
+        // private String toolBatchNumber;
+        // private String grnNumber;
+        // private String rmBatchNumber;
+        //private String inspLotNumber;
+
+        values.put(ItemsTable.COLUMN_ID, this.toolName);
+        values.put(ItemsTable.COLUMN_ID, this.toolBatchNumber);
+        values.put(ItemsTable.COLUMN_ID, this.grnNumber);
+        values.put(ItemsTable.COLUMN_ID, this.rmBatchNumber);
+        values.put(ItemsTable.COLUMN_ID, this.inspLotNumber);
+
+
+        return values;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BarCodeCoponents)) return false;
-        BarCodeCoponents that = (BarCodeCoponents) o;
+        if (!(o instanceof Items)) return false;
+        Items that = (Items) o;
         return barCode.equals(that.barCode);
     }
 
@@ -81,17 +118,5 @@ public class BarCodeCoponents {
         return Objects.hash(barCode);
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("BarCodeCoponents{");
-        sb.append("barCode='").append(barCode).append('\'');
-        sb.append(", sapCode='").append(sapCode).append('\'');
-        sb.append(", toolName='").append(toolName).append('\'');
-        sb.append(", toolBatchNumber='").append(toolBatchNumber).append('\'');
-        sb.append(", grnNumber='").append(grnNumber).append('\'');
-        sb.append(", rmBatchNumber='").append(rmBatchNumber).append('\'');
-        sb.append(", inspLotNumber='").append(inspLotNumber).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+
 }
