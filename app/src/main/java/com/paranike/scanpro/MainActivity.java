@@ -1,25 +1,23 @@
 package com.paranike.scanpro;
 
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.appcompat.widget.Toolbar;
-
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.paranike.scanpro.core.BarCodeParser;
 import com.paranike.scanpro.db.ItemsDataSource;
-import com.paranike.scanpro.model.Items;
+import com.paranike.scanpro.model.Item;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
-                Items comps = new Items(scannedBarCode);
+                Item comps = new Item(scannedBarCode);
 
                 BarCodeParser parser = new BarCodeParser();
                 comps = parser.parsebarCode(comps);
@@ -81,25 +79,39 @@ public class MainActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
-                Snackbar.make(view, "Scanned BarCode is " + text, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
+                Item scannedItem = new Item(scannedBarCode);
+
+                BarCodeParser parser = new BarCodeParser();
+                scannedItem = parser.parsebarCode(scannedItem);
+                scannedItem.setRptGenerated(false);
+                try {
+                    itemsDataSource.insertItem(scannedItem);
+                } catch (SQLiteException sle) {
+                    Toast.makeText(view.getContext(), "Save Operation Failed!!!", Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(view.getContext(), "Save Operation Successful!!!", Toast.LENGTH_SHORT).show();
+                clearData();
             }
         });
 
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText barCode = (EditText) findViewById(R.id.editTextBarcode);
-                barCode.setText("");
-                EditText qty = (EditText) findViewById(R.id.textViewQtyData);
-                qty.setText("");
-                ((EditText) findViewById(R.id.editTextBarcode)).requestFocus();
+                clearData();
             }
         });
 
     }
 
+    private void clearData() {
+        EditText barCode = (EditText) findViewById(R.id.editTextBarcode);
+        barCode.setText("");
+        EditText qty = (EditText) findViewById(R.id.textViewQtyData);
+        qty.setText("");
+        ((EditText) findViewById(R.id.editTextBarcode)).requestFocus();
+    }
     @Override
     protected void onPause() {
         super.onPause();

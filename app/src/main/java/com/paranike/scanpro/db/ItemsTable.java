@@ -15,7 +15,7 @@ public class ItemsTable {
 
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_SCAN_LOCATION = "scanLocation";
-
+    public static final String COLUMN_IS_RPT_GENRATED = "isRptGenerated";
 
     public static final String SQL_CREATE =
             "CREATE TABLE " + TABLE_ITEMS + "(" +
@@ -28,7 +28,9 @@ public class ItemsTable {
                     COLUMN_BATCH_NUMBER_RM + " TEXT," +
                     COLUMN_INSP_LOT_NUMBER + " TEXT," +
                     COLUMN_QUANTITY + " INTEGER," +
-                    COLUMN_SCAN_LOCATION + " TEXT" + ");";
+                    COLUMN_SCAN_LOCATION + " TEXT," +
+                    COLUMN_IS_RPT_GENRATED + " INTEGER" +
+                    ");";
 
     public static final String SQL_DELETE =
             "DROP TABLE " + TABLE_ITEMS;

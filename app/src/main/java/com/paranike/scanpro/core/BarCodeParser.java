@@ -1,6 +1,6 @@
 package com.paranike.scanpro.core;
 
-import com.paranike.scanpro.model.Items;
+import com.paranike.scanpro.model.Item;
 
 public class BarCodeParser {
 
@@ -11,7 +11,7 @@ public class BarCodeParser {
     private int rmBatchNoPos = 2;
     private int inspLotNoPos = 3;
 
-    public Items parsebarCode(Items barcodeModel) {
+    public Item parsebarCode(Item barcodeModel) {
         if (barcodeModel == null) {
             return null;
         }
