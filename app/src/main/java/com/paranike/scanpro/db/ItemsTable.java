@@ -36,7 +36,7 @@ public class ItemsTable {
                     COLUMN_SCAN_LOCATION + " TEXT," +
                     COLUMN_IS_RPT_GENRATED + " INTEGER," +
                     COLUMN_TIME_STAMP_STR_FORMAT + " TEXT, "  +
-                    COLUMN_SCANNED_BY_USER + "TEXT "+
+                    COLUMN_SCANNED_BY_USER + " TEXT "+
                     ");";
 
     public static final String SQL_DELETE =
