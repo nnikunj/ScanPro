@@ -16,7 +16,11 @@ public class ItemsTable {
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_SCAN_LOCATION = "scanLocation";
     public static final String COLUMN_IS_RPT_GENRATED = "isRptGenerated";
-
+    public static final String COLUMN_TIME_STAMP_STR_FORMAT = "timeStampStrFormat";
+    public static final String[] ALL_COLUMNS = {COLUMN_ID, COLUMN_BARCOE, COLUMN_SAP_CODE, COLUMN_TOOL_NAME, COLUMN_TOOL_BATCH_NUMBER,
+            COLUMN_GRN_NUMBER, COLUMN_BATCH_NUMBER_RM, COLUMN_INSP_LOT_NUMBER, COLUMN_QUANTITY,
+            COLUMN_SCAN_LOCATION,COLUMN_IS_RPT_GENRATED, COLUMN_TIME_STAMP_STR_FORMAT
+    };
     public static final String SQL_CREATE =
             "CREATE TABLE " + TABLE_ITEMS + "(" +
                     COLUMN_ID + " TEXT PRIMARY KEY," +
@@ -29,7 +33,8 @@ public class ItemsTable {
                     COLUMN_INSP_LOT_NUMBER + " TEXT," +
                     COLUMN_QUANTITY + " INTEGER," +
                     COLUMN_SCAN_LOCATION + " TEXT," +
-                    COLUMN_IS_RPT_GENRATED + " INTEGER" +
+                    COLUMN_IS_RPT_GENRATED + " INTEGER," +
+                    COLUMN_TIME_STAMP_STR_FORMAT + " TEXT "  +
                     ");";
 
     public static final String SQL_DELETE =

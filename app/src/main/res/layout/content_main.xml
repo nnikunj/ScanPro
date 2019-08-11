@@ -196,7 +196,7 @@
         android:layout_marginTop="384dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Scan Location:" />
+        android:text="Scan Loc:" />
 
     <TextView
         android:id="@+id/textViewLocationData"

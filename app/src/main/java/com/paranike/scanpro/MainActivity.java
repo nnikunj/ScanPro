@@ -15,9 +15,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.paranike.scanpro.common.AppConstants;
 import com.paranike.scanpro.core.BarCodeParser;
 import com.paranike.scanpro.db.ItemsDataSource;
 import com.paranike.scanpro.model.Item;
+
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Button saveBtn = (Button) findViewById(R.id.btnSave);
         Button resetBtn = (Button) findViewById(R.id.btnReset);
-
+        final String areaCode=(String) getIntent().getExtras().get(AppConstants.SCAN_AREA_CODE_KEY);
         final EditText barCode = (EditText) findViewById(R.id.editTextBarcode);
 
         barCode.addTextChangedListener(new TextWatcher() {
@@ -63,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 TextView grnNumber = findViewById(R.id.textViewToolGrnNumberData);
                 TextView batchNumber = findViewById(R.id.textViewBNumberData);
                 TextView inspLotNumber = findViewById(R.id.textViewInspLotData);
-
+                TextView textViewLocation = findViewById(R.id.textViewLocationData);
+                textViewLocation.setText(areaCode);
                 sap.setText(comps.getSapCode());
                 toolName.setText(comps.getToolName());
                 toolBatchNumber.setText(comps.getToolBatchNumber());
@@ -86,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 BarCodeParser parser = new BarCodeParser();
                 scannedItem = parser.parsebarCode(scannedItem);
                 scannedItem.setRptGenerated(false);
+                scannedItem.setScanLocation(areaCode);
+                scannedItem.setScanTimeStamp(new Date().getTime());
                 try {
                     itemsDataSource.insertItem(scannedItem);
                 } catch (SQLiteException sle) {
@@ -110,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
         barCode.setText("");
         EditText qty = (EditText) findViewById(R.id.textViewQtyData);
         qty.setText("");
-        ((EditText) findViewById(R.id.editTextBarcode)).requestFocus();
+        TextView textViewLocation = findViewById(R.id.textViewLocationData);
+        textViewLocation.setText("");
+        barCode.requestFocus();
+
     }
     @Override
     protected void onPause() {

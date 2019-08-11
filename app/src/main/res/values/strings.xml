@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">ScanPro</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Login</string>
+    <string name="hintUserName">UserName</string>
+
+    <string name="hintPassword">Password</string>
+    <string name="title_activity_area_code">AreaCodeActivity</string>
+
 </resources>

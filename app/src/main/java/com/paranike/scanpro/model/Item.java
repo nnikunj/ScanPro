@@ -9,9 +9,9 @@ import java.util.Objects;
 
 public class Item {
 
-    private final int NUMBER_OF_FIELDS = 8;
+    private final int NUMBER_OF_FIELDS = 12;
     private String id;
-    private final String barCode;
+    private  String barCode;
     private String sapCode;
     private String toolName;
     private String toolBatchNumber;
@@ -21,7 +21,11 @@ public class Item {
     private int quantity;
     private String scanLocation;
     private int isRptGenerated;
+    private long scanTimeStamp;
 
+    public Item() {
+
+    }
     public Item(String barCode) {
         this.barCode = barCode;
 
@@ -53,6 +57,10 @@ public class Item {
 
     }
 
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
+
     public String getBarCode() {
         return barCode;
     }
@@ -61,6 +69,13 @@ public class Item {
         return sapCode;
     }
 
+    public long getScanTimeStamp() {
+        return scanTimeStamp;
+    }
+
+    public void setScanTimeStamp(long scanTimeStamp) {
+        this.scanTimeStamp = scanTimeStamp;
+    }
 
     public void setSapCode(String sapCode) {
         this.sapCode = sapCode;
@@ -136,6 +151,8 @@ public class Item {
         values.put(ItemsTable.COLUMN_QUANTITY, this.quantity);
         values.put(ItemsTable.COLUMN_SCAN_LOCATION, this.scanLocation);
         values.put(ItemsTable.COLUMN_IS_RPT_GENRATED, this.isRptGenerated);
+        values.put(ItemsTable.COLUMN_TIME_STAMP_STR_FORMAT, String.valueOf(this.scanTimeStamp));
+
         return values;
     }
 
@@ -152,5 +169,22 @@ public class Item {
         return Objects.hash(barCode);
     }
 
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Item{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", barCode='").append(barCode).append('\'');
+        sb.append(", sapCode='").append(sapCode).append('\'');
+        sb.append(", toolName='").append(toolName).append('\'');
+        sb.append(", toolBatchNumber='").append(toolBatchNumber).append('\'');
+        sb.append(", grnNumber='").append(grnNumber).append('\'');
+        sb.append(", rmBatchNumber='").append(rmBatchNumber).append('\'');
+        sb.append(", inspLotNumber='").append(inspLotNumber).append('\'');
+        sb.append(", quantity=").append(quantity);
+        sb.append(", scanLocation='").append(scanLocation).append('\'');
+        sb.append(", isRptGenerated=").append(isRptGenerated);
+        sb.append(", scanTimeStamp=").append(scanTimeStamp);
+        sb.append('}');
+        return sb.toString();
+    }
 }
