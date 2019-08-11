@@ -23,8 +23,8 @@ public class AreaCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_area_code);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        final String loggedInUser=(String) getIntent().getExtras().get(AppConstants.LOGGED_IN_USER_KEY);
+        
         Button loginBtn = (Button) findViewById(R.id.btnNext);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +39,7 @@ public class AreaCodeActivity extends AppCompatActivity {
 
                     Intent mainIntent = new Intent(AreaCodeActivity.this, MainActivity.class);
                     mainIntent.putExtra(AppConstants.SCAN_AREA_CODE_KEY, areaLocation);
+                    mainIntent.putExtra(AppConstants.LOGGED_IN_USER_KEY, loggedInUser);
                     startActivity(mainIntent);
                 }
                 else{

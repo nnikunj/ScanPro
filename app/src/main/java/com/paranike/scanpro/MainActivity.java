@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         Button saveBtn = (Button) findViewById(R.id.btnSave);
         Button resetBtn = (Button) findViewById(R.id.btnReset);
         final String areaCode=(String) getIntent().getExtras().get(AppConstants.SCAN_AREA_CODE_KEY);
+        final String loggedInUser=(String) getIntent().getExtras().get(AppConstants.LOGGED_IN_USER_KEY);
+
         final EditText barCode = (EditText) findViewById(R.id.editTextBarcode);
 
         barCode.addTextChangedListener(new TextWatcher() {
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 scannedItem.setRptGenerated(false);
                 scannedItem.setScanLocation(areaCode);
                 scannedItem.setScanTimeStamp(new Date().getTime());
+
                 try {
                     itemsDataSource.insertItem(scannedItem);
                 } catch (SQLiteException sle) {

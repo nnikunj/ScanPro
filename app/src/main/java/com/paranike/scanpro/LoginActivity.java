@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.paranike.scanpro.common.AppConstants;
 import com.paranike.scanpro.core.BarCodeParser;
 import com.paranike.scanpro.model.Item;
 
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(isAllowed) {
 
                     Intent loginIntent = new Intent(LoginActivity.this, AreaCodeActivity.class);
+                    loginIntent.putExtra(AppConstants.LOGGED_IN_USER_KEY, userNameVal);
                     startActivity(loginIntent);
                 }
                 else{

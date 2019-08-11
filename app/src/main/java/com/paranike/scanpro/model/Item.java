@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Item {
 
-    private final int NUMBER_OF_FIELDS = 12;
+    private final int NUMBER_OF_FIELDS = 13;
     private String id;
     private  String barCode;
     private String sapCode;
@@ -22,6 +22,7 @@ public class Item {
     private String scanLocation;
     private int isRptGenerated;
     private long scanTimeStamp;
+    private String user;
 
     public Item() {
 
@@ -55,6 +56,14 @@ public class Item {
             isRptGenerated = 0;
         }
 
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public void setBarCode(String barCode) {
@@ -152,6 +161,7 @@ public class Item {
         values.put(ItemsTable.COLUMN_SCAN_LOCATION, this.scanLocation);
         values.put(ItemsTable.COLUMN_IS_RPT_GENRATED, this.isRptGenerated);
         values.put(ItemsTable.COLUMN_TIME_STAMP_STR_FORMAT, String.valueOf(this.scanTimeStamp));
+        values.put(ItemsTable.COLUMN_SCANNED_BY_USER, user);
 
         return values;
     }
@@ -184,6 +194,7 @@ public class Item {
         sb.append(", scanLocation='").append(scanLocation).append('\'');
         sb.append(", isRptGenerated=").append(isRptGenerated);
         sb.append(", scanTimeStamp=").append(scanTimeStamp);
+        sb.append(", user='").append(user).append('\'');
         sb.append('}');
         return sb.toString();
     }
