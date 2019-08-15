@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -78,22 +79,30 @@ public class AreaCodeActivity extends AppCompatActivity {
         });
 
         Button csvBtn = (Button) findViewById(R.id.btnGenerateCSV);
+
+
         csvBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 try {
+                    Log.i("BLA", "JAI Hind");
                     List<Item> items = itemsDataSource.updateAndGetAllItemsForWhichRptInNotGenerated();
                     if (items.size() == 0) {
                         Toast.makeText(view.getContext(), "No data for report generation available.", Toast.LENGTH_LONG).show();
                         return;
                     }
 
-
-                    File op = new File(Environment.getExternalStorageDirectory(), "eport.csv");
+                    Log.i("BLA", items.toString());
+                    File op = new File(Environment.getExternalStorageDirectory(), "storage/data_export.csv");
+                    //FileUtils.deleteQuietly(op);
+                    op.setReadable(true);
+                    op.setWritable(true);
+                    op.setExecutable(true);
 
 
                     StringWriter sw = new StringWriter();
-                    String pattern = "yyyy-MM-dd HH:mm:ss";
+                    String pattern = "yyyy-MMM-dd HH:mm:ss";
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
                     CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.DEFAULT.withHeader("Tool Name", "SAP Code", "Batch No (RM)", "Tool Batch No", "GRN No", "Insp Lot No", "Qty",
@@ -107,8 +116,10 @@ public class AreaCodeActivity extends AppCompatActivity {
 
                     }
                     csvPrinter.flush();
+                    Toast.makeText(view.getContext(), "Generated Report.", Toast.LENGTH_LONG).show();
                     FileUtils.write(op, sw.toString());
                 } catch (Exception e) {
+                    e.printStackTrace();
                     Toast.makeText(view.getContext(), "Could not write output csv."+e.getMessage(), Toast.LENGTH_LONG).show();
                 }
 

@@ -1,9 +1,11 @@
 package com.paranike.scanpro;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Button saveBtn = (Button) findViewById(R.id.btnSave);
+        final  Button saveBtn = (Button) findViewById(R.id.btnSave);
         Button resetBtn = (Button) findViewById(R.id.btnReset);
         final String areaCode=(String) getIntent().getExtras().get(AppConstants.SCAN_AREA_CODE_KEY);
         final String loggedInUser=(String) getIntent().getExtras().get(AppConstants.LOGGED_IN_USER_KEY);
@@ -82,19 +84,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
+                if(scannedBarCode==null || scannedBarCode.isEmpty()) {
+                    Toast.makeText(view.getContext(), "Please scan before saving.", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Item scannedItem = new Item(scannedBarCode);
 
                 BarCodeParser parser = new BarCodeParser();
                 scannedItem = parser.parsebarCode(scannedItem);
                 scannedItem.setRptGenerated(false);
                 scannedItem.setScanLocation(areaCode);
+                scannedItem.setUser(loggedInUser);
                 scannedItem.setScanTimeStamp(new Date().getTime());
-
+                EditText qty = (EditText) findViewById(R.id.textViewQtyData);
+                String quant= qty.getText().toString();
+                int q = 0;
+                try {
+                   q= Integer.parseInt(quant);
+                }catch (NumberFormatException nfe) {
+                    Toast.makeText(view.getContext(), "Qunatity could only be positive interger number.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                scannedItem.setQuantity(q);
                 try {
                     itemsDataSource.insertItem(scannedItem);
                 } catch (SQLiteException sle) {

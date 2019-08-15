@@ -5,11 +5,11 @@ import com.paranike.scanpro.model.Item;
 public class BarCodeParser {
 
     private int sapCodePos = 0;
-    private int toolNamePos = 5;
-    private int toolBatchNoPos = 4;
     private int grnNoPos = 1;
     private int rmBatchNoPos = 2;
     private int inspLotNoPos = 3;
+    private int toolBatchNoPos = 4;
+    private int toolNamePos = 5;
 
     public Item parsebarCode(Item barcodeModel) {
         if (barcodeModel == null) {

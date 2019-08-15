@@ -93,7 +93,7 @@ public class ItemsDataSource {
             throw new RuntimeException(e.getMessage(),e);
         }
 
-        database.endTransaction();
+       // database.endTransaction();
         cursor.close();
         return allItems;
     }
