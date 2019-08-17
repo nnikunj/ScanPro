@@ -1,6 +1,6 @@
 package com.paranike.scanpro;
 
-import android.content.Intent;
+
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final  Button saveBtn = (Button) findViewById(R.id.btnSave);
+        final Button saveBtn = (Button) findViewById(R.id.btnSave);
         Button resetBtn = (Button) findViewById(R.id.btnReset);
-        final String areaCode=(String) getIntent().getExtras().get(AppConstants.SCAN_AREA_CODE_KEY);
-        final String loggedInUser=(String) getIntent().getExtras().get(AppConstants.LOGGED_IN_USER_KEY);
+        final String areaCode = (String) getIntent().getExtras().get(AppConstants.SCAN_AREA_CODE_KEY);
+        final String loggedInUser = (String) getIntent().getExtras().get(AppConstants.LOGGED_IN_USER_KEY);
 
         final EditText barCode = (EditText) findViewById(R.id.editTextBarcode);
 
@@ -88,40 +88,19 @@ public class MainActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
-                if(scannedBarCode==null || scannedBarCode.isEmpty()) {
-                    Toast.makeText(view.getContext(), "Please scan before saving.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Item scannedItem = new Item(scannedBarCode);
-
-                BarCodeParser parser = new BarCodeParser();
-                scannedItem = parser.parsebarCode(scannedItem);
-                scannedItem.setRptGenerated(false);
-                scannedItem.setScanLocation(areaCode);
-                scannedItem.setUser(loggedInUser);
-                scannedItem.setScanTimeStamp(new Date().getTime());
-                EditText qty = (EditText) findViewById(R.id.textViewQtyData);
-                String quant= qty.getText().toString();
-                int q = 0;
-                try {
-                   q= Integer.parseInt(quant);
-                }catch (NumberFormatException nfe) {
-                    Toast.makeText(view.getContext(), "Qunatity could only be positive interger number.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                scannedItem.setQuantity(q);
-                try {
-                    itemsDataSource.insertItem(scannedItem);
-                } catch (SQLiteException sle) {
-                    Toast.makeText(view.getContext(), "Save Operation Failed!!!", Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(view.getContext(), "Save Operation Successful!!!", Toast.LENGTH_SHORT).show();
-                clearData();
+                saveDataAction(view, areaCode, loggedInUser);
             }
         });
 
+        saveBtn.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+
+                if (keyCode == KeyEvent.KEYCODE_ENTER)
+                    saveDataAction(view, areaCode, loggedInUser);
+                    return true;
+            }
+        });
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +108,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void saveDataAction(View view, String areaCode, String loggedInUser) {
+
+        String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
+        if (scannedBarCode == null || scannedBarCode.isEmpty()) {
+            Toast.makeText(view.getContext(), "Please scan before saving.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Item scannedItem = new Item(scannedBarCode);
+
+        BarCodeParser parser = new BarCodeParser();
+        scannedItem = parser.parsebarCode(scannedItem);
+        scannedItem.setRptGenerated(false);
+        scannedItem.setScanLocation(areaCode);
+        scannedItem.setUser(loggedInUser);
+        scannedItem.setScanTimeStamp(new Date().getTime());
+        EditText qty = (EditText) findViewById(R.id.textViewQtyData);
+        String quant = qty.getText().toString();
+        int q = 0;
+        try {
+            q = Integer.parseInt(quant);
+        } catch (NumberFormatException nfe) {
+            Toast.makeText(view.getContext(), "Qunatity could only be positive interger number.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        scannedItem.setQuantity(q);
+        try {
+            itemsDataSource.insertItem(scannedItem);
+        } catch (SQLiteException sle) {
+            Toast.makeText(view.getContext(), "Save Operation Failed!!!", Toast.LENGTH_LONG).show();
+        }
+        Toast.makeText(view.getContext(), "Save Operation Successful!!!", Toast.LENGTH_SHORT).show();
+        clearData();
     }
 
     private void clearData() {
@@ -141,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         barCode.requestFocus();
 
     }
+
     @Override
     protected void onPause() {
         super.onPause();

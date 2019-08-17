@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Environment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 
 public class AreaCodeActivity extends AppCompatActivity {
@@ -80,7 +82,6 @@ public class AreaCodeActivity extends AppCompatActivity {
 
         Button csvBtn = (Button) findViewById(R.id.btnGenerateCSV);
 
-
         csvBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -120,7 +121,7 @@ public class AreaCodeActivity extends AppCompatActivity {
                     FileUtils.write(op, sw.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(view.getContext(), "Could not write output csv."+e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), "Could not write output csv." + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
             }
