@@ -26,8 +26,8 @@ public class InventoryTable {
                     ");";
 
     public static final String[] CREATE_INDICES = {
-            "CREATE INDEX IF NOT EXISTS "+TABLE_INVENTORY+"_"+COLUMN_ID+"_idx "+ TABLE_INVENTORY+"("+COLUMN_ID+");",
-            "CREATE INDEX IF NOT EXISTS "+TABLE_INVENTORY+"_"+COLUMN_ITEM_CODE+"_idx "+ TABLE_INVENTORY+"("+COLUMN_ITEM_CODE+");"
+            "CREATE INDEX IF NOT EXISTS "+TABLE_INVENTORY+"_"+COLUMN_ID+"_idx on "+ TABLE_INVENTORY+"("+COLUMN_ID+");",
+            "CREATE INDEX IF NOT EXISTS "+TABLE_INVENTORY+"_"+COLUMN_ITEM_CODE+"_idx on "+ TABLE_INVENTORY+"("+COLUMN_ITEM_CODE+");"
     };
     public static final String[] DROP_INDICES = {
             "DROP INDEX IF EXISTS "+TABLE_INVENTORY+"_"+COLUMN_ID+"_idx ;",

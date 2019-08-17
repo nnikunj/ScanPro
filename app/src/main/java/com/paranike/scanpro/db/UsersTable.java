@@ -16,7 +16,7 @@ public class UsersTable {
                     ");";
 
     public static final String[] CREATE_INDICES = {
-            "CREATE INDEX IF NOT EXISTS "+TABLE_USERS+"_"+COLUMN_USER_NAME+"_idx "+ TABLE_USERS+"("+COLUMN_USER_NAME+");"
+            "CREATE INDEX IF NOT EXISTS "+TABLE_USERS+"_"+COLUMN_USER_NAME+"_idx on "+ TABLE_USERS+"("+COLUMN_USER_NAME+");"
 
     };
 

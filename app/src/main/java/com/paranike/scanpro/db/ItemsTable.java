@@ -52,8 +52,8 @@ public class ItemsTable {
                     ");";
 
     public static final String[] CREATE_INDICES = {
-            "CREATE INDEX IF NOT EXISTS "+TABLE_ITEMS+"_"+COLUMN_ID+"_idx "+ TABLE_ITEMS+"("+COLUMN_ID+"); ",
-            "CREATE INDEX IF NOT EXISTS "+TABLE_ITEMS+"_"+COLUMN_SAP_CODE+"_idx "+ TABLE_ITEMS+"("+COLUMN_SAP_CODE+"); "
+            "CREATE INDEX IF NOT EXISTS "+TABLE_ITEMS+"_"+COLUMN_ID+"_idx on "+ TABLE_ITEMS+"("+COLUMN_ID+"); ",
+            "CREATE INDEX IF NOT EXISTS "+TABLE_ITEMS+"_"+COLUMN_SAP_CODE+"_idx on "+ TABLE_ITEMS+"("+COLUMN_SAP_CODE+"); "
 
     };
     public static final String[] DROP_INDICES = {

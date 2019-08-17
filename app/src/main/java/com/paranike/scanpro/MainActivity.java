@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         final String areaCode = (String) getIntent().getExtras().get(AppConstants.SCAN_AREA_CODE_KEY);
         final String loggedInUser = (String) getIntent().getExtras().get(AppConstants.LOGGED_IN_USER_KEY);
 
-        final EditText barCode = (EditText) findViewById(R.id.editTextBarcode);
+        final EditText barCode = (EditText) findViewById(R.id.editTextBarCode);
 
         barCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,18 +59,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
+                String scannedBarCode = ((EditText) findViewById(R.id.editTextBarCode)).getText().toString();
                 Item comps = new Item(scannedBarCode);
 
                 BarCodeParser parser = new BarCodeParser();
                 comps = parser.parsebarCode(comps);
                 TextView sap = findViewById(R.id.textViewSapCodeData);
                 TextView toolName = findViewById(R.id.textViewToolNameData);
-                TextView toolBatchNumber = findViewById(R.id.textViewToolBNumberData);
-                TextView grnNumber = findViewById(R.id.textViewToolGrnNumberData);
-                TextView batchNumber = findViewById(R.id.textViewBNumberData);
-                TextView inspLotNumber = findViewById(R.id.textViewInspLotData);
-                TextView textViewLocation = findViewById(R.id.textViewLocationData);
+                TextView toolBatchNumber = findViewById(R.id.textViewToolBatchNoData);
+                TextView grnNumber = findViewById(R.id.textViewGrnData);
+                TextView batchNumber = findViewById(R.id.textViewBatchNumberRMData);
+                TextView inspLotNumber = findViewById(R.id.textViewInspLotNumberData);
+                TextView textViewLocation = findViewById(R.id.editTextScanLocationData);
                 textViewLocation.setText(areaCode);
                 sap.setText(comps.getSapCode());
                 toolName.setText(comps.getToolName());
@@ -78,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 grnNumber.setText(comps.getGrnNumber());
                 batchNumber.setText(comps.getRmBatchNumber());
                 inspLotNumber.setText(comps.getInspLotNumber());
-                EditText qty = (EditText) findViewById(R.id.textViewQtyData);
+                EditText qty = (EditText) findViewById(R.id.editTextQuantData);
+                 qty.setEnabled(false);
                 qty.setText("1");
                 qty.requestFocus();
 
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveDataAction(View view, String areaCode, String loggedInUser) {
 
-        String scannedBarCode = ((EditText) findViewById(R.id.editTextBarcode)).getText().toString();
+        String scannedBarCode = ((EditText) findViewById(R.id.editTextBarCode)).getText().toString();
         if (scannedBarCode == null || scannedBarCode.isEmpty()) {
             Toast.makeText(view.getContext(), "Please scan before saving.", Toast.LENGTH_LONG).show();
             return;
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         scannedItem.setScanLocation(areaCode);
         scannedItem.setUser(loggedInUser);
         scannedItem.setScanTimeStamp(new Date().getTime());
-        EditText qty = (EditText) findViewById(R.id.textViewQtyData);
+        EditText qty = (EditText) findViewById(R.id.editTextQuantData);
         String quant = qty.getText().toString();
         int q = 0;
         try {
@@ -145,11 +146,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearData() {
-        EditText barCode = (EditText) findViewById(R.id.editTextBarcode);
+        EditText barCode = (EditText) findViewById(R.id.editTextBarCode);
         barCode.setText("");
-        EditText qty = (EditText) findViewById(R.id.textViewQtyData);
+        EditText qty = (EditText) findViewById(R.id.editTextQuantData);
         qty.setText("");
-        TextView textViewLocation = findViewById(R.id.textViewLocationData);
+        TextView textViewLocation = findViewById(R.id.editTextScanLocationData);
         textViewLocation.setText("");
         barCode.requestFocus();
 
